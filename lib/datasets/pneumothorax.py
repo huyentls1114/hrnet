@@ -27,13 +27,15 @@ class Pneumothorax(BaseDataset):
                        std=[0.229, 0.224, 0.225],
                        downsample_rate = 1,
                        scale_factor = 16,
-                       ignore_label = -1):
+                       ignore_label = -1,
+                       num_classes = 1):
         super(Pneumothorax, self).__init__(ignore_label, base_size,
                 crop_size, downsample_rate, scale_factor, mean, std)
         self.input_folder = root
         self.weight_positive = weight_positive
         self.multi_scale = multi_scale
         self.flip = flip
+        self.num_classes = num_classes
 
         self.image_folder = os.path.join(self.input_folder, "images")
         self.mask_folder = os.path.join(self.input_folder, "masks")
