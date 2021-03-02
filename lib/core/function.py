@@ -22,6 +22,9 @@ from utils.utils import adjust_learning_rate
 
 def train(config, epoch, num_epoch, epoch_iters, base_lr, 
         num_iters, trainloader, optimizer, model, writer_dict):
+
+    if config.DATASET.DATASET == "pneumothorax":
+        trainloader.dataset.update_train_ds(config.DATASET.WEIGHT_POSITIVE)
     # Training
     model.train()
     batch_time = AverageMeter()
