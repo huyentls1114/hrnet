@@ -39,7 +39,8 @@ class Pneumothorax(BaseDataset):
                        downsample_rate = 1,
                        scale_factor = 16,
                        ignore_label = -1,
-                       num_classes = 1):
+                       num_classes = 1,
+                       num_samples = None):
         super(Pneumothorax, self).__init__(ignore_label, base_size,
                 crop_size, downsample_rate, scale_factor, mean, std)
         self.input_folder = root
