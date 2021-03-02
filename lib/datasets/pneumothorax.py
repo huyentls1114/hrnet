@@ -32,7 +32,7 @@ class Pneumothorax(BaseDataset):
                 crop_size, downsample_rate, scale_factor, mean, std)
         self.input_folder = root
         self.weight_positive = weight_positive
-        self.multi_scale = 
+        self.multi_scale = multi_scale
         self.flip = flip
 
         self.image_folder = os.path.join(self.input_folder, "images")
