@@ -88,7 +88,7 @@ class Pneumothorax(BaseDataset):
     def __len__(self):
         return len(self.list_img_name)
     
-    def __getitem__(self, idx):
+    def __getitem__(self, idx)
         img_name = self.list_img_name[idx]
         img_path = os.path.join(self.image_folder, img_name)
         image = cv2.imread(img_path, cv2.IMREAD_COLOR)
