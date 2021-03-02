@@ -25,6 +25,7 @@ import torch
 from torch.nn import functional as F
 
 from .base_dataset import BaseDataset
+import random
 
 class Pneumothorax(BaseDataset):
     def __init__(self, root, 
