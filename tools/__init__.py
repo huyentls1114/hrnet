@@ -1,3 +1,3 @@
-from ._init_paths import _init_paths
-from .train import train
-from .test import test
+import ._init_paths as _init_paths
+import .train as train
+import .test as test
