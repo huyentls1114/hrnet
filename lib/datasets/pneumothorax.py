@@ -96,7 +96,7 @@ class Pneumothorax(BaseDataset):
 
         mask_path = os.path.join(self.mask_folder, img_name)
         label = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
-        import pdb; pdb.set_trace()
+        # import pdb; pdb.set_trace()
         if self.flip :
             flip = random.randint(0, 1)
         else:
