@@ -65,6 +65,8 @@ class Pneumothorax(BaseDataset):
         else:
             self.df_img = self.df_img_all
         self.list_img_name =self.df_img["img_name"].values
+
+        self.class_weights = None
     
     def update_train_ds(self, weight_positive = 0.8):
         if self.mode == "train":
