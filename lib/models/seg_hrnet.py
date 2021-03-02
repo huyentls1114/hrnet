@@ -19,9 +19,10 @@ import torch.nn as nn
 import torch._utils
 import torch.nn.functional as F
 
-from .sync_bn.inplace_abn.bn import InPlaceABNSync
+# from .sync_bn.inplace_abn.bn import InPlaceABNSync
 
-BatchNorm2d = functools.partial(InPlaceABNSync, activation='none')
+# BatchNorm2d = functools.partial(InPlaceABNSync, activation='none')
+BatchNorm2d = nn.BatchNorm2d
 BN_MOMENTUM = 0.01
 logger = logging.getLogger(__name__)
 
@@ -466,9 +467,12 @@ class HighResolutionNet(nn.Module):
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
                 nn.init.normal_(m.weight, std=0.001)
-            elif isinstance(m, InPlaceABNSync):
+            elif isinstance(m, nn.BatchNorm2d):
                 nn.init.constant_(m.weight, 1)
                 nn.init.constant_(m.bias, 0)
+            # elif isinstance(m, InPlaceABNSync):
+            #     nn.init.constant_(m.weight, 1)
+            #     nn.init.constant_(m.bias, 0)
         if os.path.isfile(pretrained):
             pretrained_dict = torch.load(pretrained)
             logger.info('=> loading pretrained model {}'.format(pretrained))
