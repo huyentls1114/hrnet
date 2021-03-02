@@ -10,6 +10,7 @@ PRINT_FREQ: 100
 
 DATASET:
   DATASET: pneumothorax
+  WEIGHT_POSITIVE: 1
   ROOT: '/content/data/Pneumothorax'
   TEST_SET: '/content/data/Pneumothorax/val.txt'
   TRAIN_SET: '/content/data/Pneumothorax/train.txt'

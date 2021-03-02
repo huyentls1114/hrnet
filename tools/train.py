@@ -99,7 +99,8 @@ def main():
                         base_size=config.TRAIN.BASE_SIZE,
                         crop_size=crop_size,
                         downsample_rate=config.TRAIN.DOWNSAMPLERATE,
-                        scale_factor=config.TRAIN.SCALE_FACTOR)
+                        scale_factor=config.TRAIN.SCALE_FACTOR,
+                        weight_positive = config.DATASET.WEIGHT_POSITIVE)
 
     trainloader = torch.utils.data.DataLoader(
         train_dataset,

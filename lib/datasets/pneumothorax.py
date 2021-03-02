@@ -59,7 +59,7 @@ class Pneumothorax(BaseDataset):
             mode = "test"
         self.mode = mode
         if mode == "train":
-            self.df_img = self.downsample_data(self.df_img_all, dataset_args["update_ds"]["weight_positive"])
+            self.df_img = self.downsample_data(self.df_img_all, weight_positive)
             self.df_img = self.df_img.sample(frac=1)
         else:
             self.df_img = self.df_img_all
