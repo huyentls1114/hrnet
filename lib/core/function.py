@@ -36,7 +36,7 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     for i_iter, batch in enumerate(trainloader, 0):
         images, labels, _, _ = batch
         labels = labels.long().cuda()
-
+        import pdb; pdb.set_trace()
         losses, _ = model(images, labels)
         loss = losses.mean()
 
