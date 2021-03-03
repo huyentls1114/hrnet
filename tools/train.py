@@ -95,7 +95,7 @@ def main():
                         num_classes=config.DATASET.NUM_CLASSES,
                         multi_scale=config.TRAIN.MULTI_SCALE,
                         flip=config.TRAIN.FLIP,
-                        ignore_label=config.TRAIN.IGNORE_LABEL,
+                        ignore_label=0,
                         base_size=config.TRAIN.BASE_SIZE,
                         crop_size=crop_size,
                         downsample_rate=config.TRAIN.DOWNSAMPLERATE,
