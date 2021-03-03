@@ -96,7 +96,7 @@ class Pneumothorax(BaseDataset):
 
         mask_path = os.path.join(self.mask_folder, img_name)
         label = cv2.imread(mask_path, cv2.IMREAD_GRAYSCALE)
-        label = label/255
+        # label = label/255
         # import numpy as np
         # print(label.shape, np.min(label), np.max(label), type(label))
         # import pdb; pdb.set_trace()
@@ -108,7 +108,7 @@ class Pneumothorax(BaseDataset):
         print(np.min(label), np.max(label))
         image, label = self.gen_sample(image, label, 
                                 self.multi_scale, flip)
-        print(np.min(label), np.max(label))
+        # print(np.min(label), np.max(label))
                                 
         return image.copy(), label.copy(), np.array(size), img_name
         
