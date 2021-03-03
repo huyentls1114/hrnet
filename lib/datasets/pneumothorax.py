@@ -105,8 +105,10 @@ class Pneumothorax(BaseDataset):
         else:
             flip = 0
 
+        print(np.min(label), np.max(label))
         image, label = self.gen_sample(image, label, 
                                 self.multi_scale, flip)
+        print(np.min(label), np.max(label))
                                 
         return image.copy(), label.copy(), np.array(size), img_name
         
