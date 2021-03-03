@@ -51,7 +51,7 @@ _C.DATASET.NUM_CLASSES = 19
 _C.DATASET.TRAIN_SET = 'list/cityscapes/train.lst'
 _C.DATASET.EXTRA_TRAIN_SET = ''
 _C.DATASET.TEST_SET = 'list/cityscapes/val.lst'
-_C.DATASET.WEIGHT_POSITIVE = 1
+_C.DATASET.WEIGHT_POSITIVE = 1.0
 
 # training
 _C.TRAIN = CN()
