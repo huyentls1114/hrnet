@@ -106,7 +106,7 @@ def validate(config, testloader, model, writer_dict):
     writer.add_scalar('valid_loss', ave_loss.average(), global_steps)
     writer.add_scalar('valid_mIoU', mean_IoU, global_steps)
     writer_dict['valid_global_steps'] = global_steps + 1
-    return ave_loss.average(), mean_IoU, IoU_array, torch.mean(list_dice)
+    return ave_loss.average(), mean_IoU, IoU_array, np.mean(list_dice)
 
 def testval(config, test_dataset, testloader, model, 
         sv_dir='', sv_pred=False):
