@@ -94,7 +94,7 @@ def validate(config, testloader, model, writer_dict):
                 size,
                 config.DATASET.NUM_CLASSES,
                 config.TRAIN.IGNORE_LABEL)
-    list_dice = torch.cat(metrict_list)
+    list_dice = torch.cat(list_dice)
     pos = confusion_matrix.sum(1)
     res = confusion_matrix.sum(0)
     tp = np.diag(confusion_matrix)
