@@ -56,3 +56,63 @@ class OhemCrossEntropy(nn.Module):
         pixel_losses = pixel_losses[mask][ind]
         pixel_losses = pixel_losses[pred < threshold] 
         return pixel_losses.mean()
+
+import numpy as np
+import torch
+import torch.nn.functional as F
+from torch import nn
+from torch.autograd import Variable
+
+try:
+    from itertools import ifilterfalse
+except ImportError:  # py3k
+    from itertools import filterfalse
+
+eps = 1e-6
+
+
+def soft_dice_loss(outputs, targets, per_image=False, per_channel=False, reduction = "mean"):
+    batch_size, n_channels = outputs.size(0), outputs.size(1)
+    
+    eps = 1e-6
+    n_parts = 1
+    if per_image:
+        n_parts = batch_size
+    if per_channel:
+        n_parts = batch_size * n_channels
+    
+    dice_target = targets.contiguous().view(n_parts, -1).float()
+    dice_output = outputs.contiguous().view(n_parts, -1)
+    intersection = torch.sum(dice_output * dice_target, dim=1)
+    union = torch.sum(dice_output, dim=1) + torch.sum(dice_target, dim=1) + eps
+    loss = (1 - (2 * intersection + eps) / union)
+    if reduction == "mean":
+        loss = loss.mean()
+    return loss
+
+def dice_metric(preds, trues, per_image=False, per_channel=False, reduction = "mean"):
+    preds = preds.float()
+    return 1 - soft_dice_loss(preds, trues, per_image, per_channel, reduction)
+
+class DiceMetric(nn.Module):
+    def __init__(self, threshold, num_classes = 1):
+        super(DiceMetric, self).__init__()
+        self.threshold = threshold
+        self.per_image = True
+        self.per_channel = False
+        self.num_classes = num_classes
+    def forward(self, outputs, labels):
+        ph, pw = outputs.size(2), outputs.size(3)
+        h, w = labels.size(2), labels.size(3)
+        # print(score.shape, target.shape, ph, pw, h, w)
+        if ph != h or pw != w:
+            outputs = F.upsample(
+                    input=outputs, size=(h, w), mode='bilinear')
+
+        if self.num_classes == 1:
+            outputs = torch.sigmoid(outputs)
+        if self.num_classes  == 2:
+            outputs = torch.softmax(outputs)
+            outputs = outputs[:,1:,:,:]
+        predicts = (outputs > self.threshold).float()
+        return dice_metric(predicts, labels, self.per_image, self.per_channel, reduction= None)

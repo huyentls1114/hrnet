@@ -19,6 +19,7 @@ from torch.nn import functional as F
 from utils.utils import AverageMeter
 from utils.utils import get_confusion_matrix
 from utils.utils import adjust_learning_rate
+from .criterion import DiceMetric
 
 def train(config, epoch, num_epoch, epoch_iters, base_lr, 
         num_iters, trainloader, optimizer, model, writer_dict):
@@ -67,10 +68,12 @@ def train(config, epoch, num_epoch, epoch_iters, base_lr,
     writer_dict['train_global_steps'] = global_steps + 1
 
 def validate(config, testloader, model, writer_dict):
+    dice_metric = DiceMetric(0.5, 2)
     model.eval()
     ave_loss = AverageMeter()
     confusion_matrix = np.zeros(
         (config.DATASET.NUM_CLASSES, config.DATASET.NUM_CLASSES))
+    list_dice = []
     with torch.no_grad():
         for _, batch in enumerate(testloader):
             image, label, _, _ = batch
@@ -78,6 +81,8 @@ def validate(config, testloader, model, writer_dict):
             label = label.long().cuda()
 
             losses, pred = model(image, label)
+            dice = dice_metric(pred, label)
+            list_dice.append(dice)
             pred = F.upsample(input=pred, size=(
                         size[-2], size[-1]), mode='bilinear')
             loss = losses.mean()
@@ -101,7 +106,7 @@ def validate(config, testloader, model, writer_dict):
     writer.add_scalar('valid_loss', ave_loss.average(), global_steps)
     writer.add_scalar('valid_mIoU', mean_IoU, global_steps)
     writer_dict['valid_global_steps'] = global_steps + 1
-    return ave_loss.average(), mean_IoU, IoU_array
+    return ave_loss.average(), mean_IoU, IoU_array, torch.mean(list_dice)
 
 def testval(config, test_dataset, testloader, model, 
         sv_dir='', sv_pred=False):
