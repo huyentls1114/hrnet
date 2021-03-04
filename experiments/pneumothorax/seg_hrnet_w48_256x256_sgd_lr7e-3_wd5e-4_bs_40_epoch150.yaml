@@ -10,7 +10,7 @@ PRINT_FREQ: 100
 
 DATASET:
   DATASET: pneumothorax
-  WEIGHT_POSITIVE: 0.6
+  WEIGHT_POSITIVE: 0.4
   ROOT: '/content/data/Pneumothorax'
   TEST_SET: '/content/data/Pneumothorax/val.txt'
   TRAIN_SET: '/content/data/Pneumothorax/train.txt'
@@ -80,7 +80,7 @@ TRAIN:
   BATCH_SIZE_PER_GPU: 16
   SHUFFLE: true
   BEGIN_EPOCH: 0
-  END_EPOCH: 150
+  END_EPOCH: 215
   RESUME: true
   OPTIMIZER: sgd
   LR: 0.007
