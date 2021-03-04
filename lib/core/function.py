@@ -94,7 +94,7 @@ def validate(config, testloader, model, writer_dict):
                 size,
                 config.DATASET.NUM_CLASSES,
                 config.TRAIN.IGNORE_LABEL)
-
+    list_dice = torch.cat(metrict_list)
     pos = confusion_matrix.sum(1)
     res = confusion_matrix.sum(0)
     tp = np.diag(confusion_matrix)
@@ -106,7 +106,7 @@ def validate(config, testloader, model, writer_dict):
     writer.add_scalar('valid_loss', ave_loss.average(), global_steps)
     writer.add_scalar('valid_mIoU', mean_IoU, global_steps)
     writer_dict['valid_global_steps'] = global_steps + 1
-    return ave_loss.average(), mean_IoU, IoU_array, np.mean(list_dice)
+    return ave_loss.average(), mean_IoU, IoU_array, list_dice.mean()
 
 def testval(config, test_dataset, testloader, model, 
         sv_dir='', sv_pred=False):
