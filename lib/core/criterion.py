@@ -112,7 +112,7 @@ class DiceMetric(nn.Module):
         if self.num_classes == 1:
             outputs = torch.sigmoid(outputs)
         if self.num_classes  == 2:
-            outputs = torch.softmax(outputs)
+            outputs = torch.softmax(outputs, 1)
             outputs = outputs[:,1:,:,:]
         predicts = (outputs > self.threshold).float()
         return dice_metric(predicts, labels, self.per_image, self.per_channel, reduction= None)
